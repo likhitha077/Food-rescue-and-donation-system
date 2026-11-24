@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Rescue | Save Food, Share Hope</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f8f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .main-container {
+            width: 1100px;
+            min-height: 650px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(30, 70, 40, 0.12);
+        }
+
+        /* LEFT SECTION */
+
+        .welcome-section {
+            background: linear-gradient(145deg, #123d2b, #247447);
+            color: white;
+            padding: 55px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            top: -100px;
+            right: -100px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .logo span {
+            color: #b9ef91;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.14);
+            color: #d7f5c6;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+
+        .hero-content h1 {
+            font-size: 43px;
+            line-height: 1.25;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 span {
+            color: #b9ef91;
+        }
+
+        .hero-content p {
+            color: #d7e8dc;
+            line-height: 1.9;
+            font-size: 14px;
+            max-width: 390px;
+        }
+
+        .food-illustration {
+            font-size: 95px;
+            margin-top: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .impact {
+            position: relative;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 22px;
+            color: #d7e8dc;
+            font-size: 12px;
+        }
+
+        /* RIGHT SECTION */
+
+        .login-section {
+            padding: 55px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-section h2 {
+            font-size: 30px;
+            color: #183c2b;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #87928a;
+            font-size: 13px;
+            margin-bottom: 35px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #344c3d;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #dce5dc;
+            border-radius: 10px;
+            background: #fbfdf9;
+            font-size: 13px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #27864c;
+            box-shadow: 0 0 0 3px rgba(39,134,76,0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #237747;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 8px;
+        }
+
+        .login-btn:hover {
+            background: #155b34;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(35,119,71,0.2);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #loginMessage {
+            font-size: 13px;
+            margin-bottom: 12px;
+            min-height: 18px;
+        }
+
+        .register-text {
+            text-align: center;
+            color: #89948c;
+            font-size: 13px;
+            margin-top: 25px;
+        }
+
+        .register-text a {
+            color: #237747;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            color: #a0aaa2;
+            font-size: 11px;
+            margin-top: 40px;
+        }
+
+        @media(max-width: 800px) {
+            body {
+                padding: 15px;
+            }
+
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-section {
+                padding: 35px;
+            }
+
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .food-illustration {
+                font-size: 65px;
+            }
+
+            .login-section {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="main-container">
+
+    <!-- LEFT SECTION -->
+
+    <section class="welcome-section">
+
+        <div class="logo">Food<span>Rescue.</span></div>
+
+        <div class="hero-content">
+
+            <div class="tag">🌱 TOGETHER FOR A BETTER TOMORROW</div>
+
+            <h1>
+                Good Food.<br>
+                Great Purpose.<br>
+                <span>Zero Waste.</span>
+            </h1>
+
+            <p>
+                Every meal deserves a purpose. Connect surplus food
+                with people who need it and help build a world
+                where no food goes to waste.
+            </p>
+
+            <div class="food-illustration">🥗 🍱 🌍</div>
+
+        </div>
+
+        <div class="impact">
+            Small actions create a big impact. Be a part of the change.
+        </div>
+
+    </section>
+
+
+    <!-- RIGHT SECTION -->
+
+    <section class="login-section">
+
+        <h2>Welcome Back!</h2>
+
+        <p class="subtitle">
+            Sign in to continue your food rescue journey.
+        </p>
+
+        <form id="loginForm">
+
+            <div class="input-group">
+                <label for="email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label for="role">I am a</label>
+
+                <select id="role" required>
+                    <option value="">Choose your role</option>
+                    <option value="DONOR">Food Donor</option>
+                    <option value="RECEIVER">Food Receiver</option>
+                </select>
+            </div>
+
+            <p id="loginMessage" role="alert"></p>
+
+            <button type="submit" class="login-btn">
+                Sign In →
+            </button>
+
+        </form>
+
+        <div class="register-text">
+            New to Food Rescue?
+            <a href="register.html">Create an account</a>
+        </div>
+
+        <div class="footer">
+            © 2026 Food Rescue. Saving food, serving humanity.
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- LOGIN JAVASCRIPT -->
+
+<script>
+
+document.getElementById("loginForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const selectedRole = document.getElementById("role").value;
+
+    const message = document.getElementById("loginMessage");
+    const loginButton = document.querySelector(".login-btn");
+
+    message.style.color = "#d32f2f";
+    message.textContent = "Checking your login details...";
+
+    loginButton.disabled = true;
+    loginButton.textContent = "Please wait...";
+
+    try {
+
+        const response = await fetch("/api/users/login", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success === true) {
+
+            // Check whether selected role matches database role
+
+            if (data.role !== selectedRole) {
+
+                message.textContent =
+                    "Please select the correct account type.";
+
+                return;
+            }
+
+            // Store user information
+
+            localStorage.setItem("userId", data.userId);
+            localStorage.setItem("userName", data.name);
+            localStorage.setItem("userRole", data.role);
+            localStorage.setItem("userEmail", email);
+
+            message.style.color = "#237747";
+
+            message.textContent =
+                "Login successful! Redirecting...";
+
+            // Redirect according to user role
+
+            if (data.role === "DONOR") {
+
+                window.location.href = "donor-dashboard.html";
+
+            }
+            else if (data.role === "RECEIVER") {
+
+                window.location.href = "receiver-dashboard.html";
+
+            }
+
+        }
+
+        else {
+
+            message.textContent =
+                data.message || "Invalid email or password.";
+
+        }
+
+    }
+
+    catch (error) {
+
+        message.textContent =
+            "Unable to connect to the server. Please try again.";
+
+        console.error("Login error:", error);
+
+    }
+
+    finally {
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Sign In →";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,829 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Rescue | Receiver Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f6f8f2;
+    color: #26352b;
+}
+
+.sidebar {
+    width: 245px;
+    height: 100vh;
+    position: fixed;
+    background: #174d35;
+    color: white;
+    padding: 28px 18px;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: 700;
+    margin-bottom: 38px;
+}
+
+.logo span {
+    color: #b9e5a8;
+}
+
+.sidebar a {
+    display: block;
+    color: #e5f1e8;
+    text-decoration: none;
+    padding: 13px 15px;
+    margin-bottom: 9px;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.sidebar a:hover {
+    background: #286848;
+}
+
+.sidebar .logout {
+    margin-top: 35px;
+    color: #ffd4c9;
+}
+
+.main {
+    margin-left: 245px;
+    padding: 32px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.header h1 {
+    font-size: 27px;
+}
+
+.header p {
+    color: #78857a;
+    font-size: 13px;
+}
+
+.welcome {
+    background: linear-gradient(120deg, #174d35, #43875b);
+    color: white;
+    padding: 28px;
+    border-radius: 17px;
+    margin-bottom: 28px;
+}
+
+.welcome h2 {
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #e0f0e4;
+    font-size: 14px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 3px 15px #00000008;
+}
+
+.stat-card p {
+    color: #78857a;
+    font-size: 13px;
+}
+
+.stat-card h2 {
+    font-size: 29px;
+    color: #174d35;
+    margin-top: 8px;
+}
+
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 15px #00000008;
+}
+
+.section h2 {
+    font-size: 19px;
+    margin-bottom: 18px;
+}
+
+.filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+input, select {
+    padding: 11px 13px;
+    border: 1px solid #dce5dc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 13px;
+    background: white;
+    min-width: 0;
+}
+
+.filters input {
+    flex: 1;
+}
+
+button {
+    background: #287447;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+button:hover {
+    background: #174d35;
+}
+
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.food-card {
+    border: 1px solid #e6eee5;
+    border-radius: 12px;
+    padding: 18px;
+    background: #fff;
+}
+
+.food-card h3 {
+    color: #174d35;
+    margin-bottom: 10px;
+}
+
+.food-card p {
+    font-size: 13px;
+    color: #657267;
+    margin: 7px 0;
+    overflow-wrap: anywhere;
+}
+
+.food-card input {
+    width: 100%;
+    margin: 12px 0;
+}
+
+.status {
+    display: inline-block;
+    background: #e4f4e6;
+    color: #247443;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    margin: 8px 0;
+}
+
+.request-card {
+    padding: 15px;
+    border: 1px solid #e5ece4;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.request-card p {
+    font-size: 13px;
+    color: #667368;
+    margin-top: 5px;
+}
+
+.empty {
+    text-align: center;
+    color: #879287;
+    padding: 25px;
+    font-size: 13px;
+}
+
+@media(max-width: 850px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .main {
+        margin-left: 190px;
+        padding: 20px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+    }
+
+    .sidebar a {
+        display: inline-block;
+        padding: 8px;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="logo">Food<span>Rescue</span></div>
+
+    <a href="#dashboard">🏠 Dashboard</a>
+    <a href="#available">🥗 Available Donations</a>
+    <a href="#myRequests">📋 My Requests</a>
+    <a href="#collections">📦 Collection History</a>
+    <a href="#notifications">🔔 Notifications</a>
+    <a href="#" class="logout" onclick="logout()">↪ Logout</a>
+</aside>
+
+<main class="main">
+
+    <div class="header" id="dashboard">
+        <div>
+            <h1>Receiver Dashboard</h1>
+            <p>Find food. Reduce waste. Share hope.</p>
+        </div>
+        <strong id="receiverName">Welcome!</strong>
+    </div>
+
+    <div class="welcome">
+        <h2>Welcome back, <span id="welcomeName">Receiver</span>! 👋</h2>
+        <p>Discover available food donations and request what your organization needs.</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card">
+            <p>Total Requests</p>
+            <h2 id="totalRequests">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Pending Requests</p>
+            <h2 id="pendingRequests">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Approved Requests</p>
+            <h2 id="approvedRequests">0</h2>
+        </div>
+    </div>
+
+    <!-- AVAILABLE DONATIONS -->
+    <section class="section" id="available">
+        <h2>🥗 Available Food Donations</h2>
+
+        <div class="filters">
+            <input type="text" id="searchFood"
+                   placeholder="Search food by name..."
+                   oninput="displayDonations()">
+
+            <select id="categoryFilter" onchange="displayDonations()">
+                <option value="">All Categories</option>
+                <option value="Fruits">Fruits</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Meals">Meals</option>
+                <option value="Grains">Grains</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="food-grid" id="donationList">
+            <div class="empty">Loading available donations...</div>
+        </div>
+    </section>
+
+    <!-- MY REQUESTS -->
+    <section class="section" id="myRequests">
+        <h2>📋 My Food Requests</h2>
+        <div id="requestList">
+            <div class="empty">Loading your requests...</div>
+        </div>
+    </section>
+
+    <!-- COLLECTION HISTORY -->
+    <section class="section" id="collections">
+        <h2>📦 Collection History</h2>
+        <div id="collectionList">
+            <div class="empty">Loading collection history...</div>
+        </div>
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    <section class="section" id="notifications">
+        <h2>🔔 Notifications</h2>
+        <div id="notificationList">
+            <div class="empty">Loading notifications...</div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+
+const API = "http://localhost:8080/api";
+
+const receiverId = localStorage.getItem("userId");
+const receiverRole = localStorage.getItem("userRole");
+const receiverName = localStorage.getItem("userName");
+
+let allDonations = [];
+
+if (!receiverId || receiverRole !== "RECEIVER") {
+    window.location.href = "index.html";
+}
+
+document.getElementById("receiverName").textContent =
+    "Welcome, " + (receiverName || "Receiver");
+
+document.getElementById("welcomeName").textContent =
+    receiverName || "Receiver";
+
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+
+function formatDate(value) {
+    if (!value) return "Not specified";
+    return new Date(value).toLocaleString();
+}
+
+
+// LOAD AVAILABLE DONATIONS
+async function loadDonations() {
+
+    try {
+        const response = await fetch(API + "/donations/available");
+
+        if (!response.ok) {
+            throw new Error("Could not load donations");
+        }
+
+        allDonations = await response.json();
+
+        displayDonations();
+
+    } catch (error) {
+
+        document.getElementById("donationList").innerHTML =
+            '<div class="empty">Unable to load donations. Check whether the backend is running.</div>';
+
+        console.error(error);
+    }
+}
+
+
+// DISPLAY DONATIONS WITH SEARCH AND FILTER
+function displayDonations() {
+
+    const search =
+        document.getElementById("searchFood").value.toLowerCase();
+
+    const category =
+        document.getElementById("categoryFilter").value;
+
+    const filtered = allDonations.filter(donation =>
+
+        (donation.foodName || "").toLowerCase().includes(search) &&
+
+        (!category || donation.category === category)
+    );
+
+    const container = document.getElementById("donationList");
+
+    if (filtered.length === 0) {
+
+        container.innerHTML =
+            '<div class="empty">No available food donations found.</div>';
+
+        return;
+    }
+
+    container.innerHTML = filtered.map(donation => `
+
+        <div class="food-card">
+
+            <h3>${escapeHTML(donation.foodName)}</h3>
+
+            <span class="status">Available</span>
+
+            <p><b>Category:</b> ${escapeHTML(donation.category)}</p>
+
+            <p><b>Quantity:</b> ${escapeHTML(donation.quantity)}</p>
+
+            <p><b>Pickup Location:</b>
+                ${escapeHTML(donation.pickupLocation)}
+            </p>
+
+            <p><b>Prepared:</b>
+                ${escapeHTML(formatDate(donation.preparationTime))}
+            </p>
+
+            <p><b>Deadline:</b>
+                ${escapeHTML(formatDate(donation.collectionDeadline))}
+            </p>
+
+            <p><b>Description:</b>
+                ${escapeHTML(donation.description || "No description")}
+            </p>
+
+            <input type="number"
+                   id="quantity-${donation.donationId}"
+                   min="1"
+                   max="${Number(donation.quantity)}"
+                   placeholder="Enter required quantity">
+
+            <button onclick="requestFood(
+                ${donation.donationId},
+                ${Number(donation.quantity)}
+            )">
+                Request Food
+            </button>
+
+        </div>
+
+    `).join("");
+}
+
+
+// REQUEST FOOD
+async function requestFood(donationId, availableQuantity) {
+
+    const quantityInput =
+        document.getElementById("quantity-" + donationId);
+
+    const quantity = Number(quantityInput.value);
+
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+
+        alert("Please enter a valid quantity.");
+
+        return;
+    }
+
+    if (quantity > availableQuantity) {
+
+        alert("Requested quantity cannot exceed available quantity.");
+
+        return;
+    }
+
+    const requestData = {
+        donationId: donationId,
+        receiverId: Number(receiverId),
+        requestedQuantity: quantity
+    };
+
+    try {
+
+        const response = await fetch(API + "/requests", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(requestData)
+        });
+
+        if (!response.ok) {
+
+            const errorText = await response.text();
+
+            throw new Error(errorText || "Request failed");
+        }
+
+        alert("Food request submitted successfully!");
+
+        await loadRequests();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to submit request. Please try again.");
+    }
+}
+
+
+// LOAD RECEIVER REQUESTS
+async function loadRequests() {
+
+    try {
+
+        const response = await fetch(
+            API + "/requests/receiver/" + receiverId
+        );
+
+        if (!response.ok) {
+            throw new Error("Could not load requests");
+        }
+
+        const requests = await response.json();
+
+        document.getElementById("totalRequests").textContent =
+            requests.length;
+
+        document.getElementById("pendingRequests").textContent =
+            requests.filter(r => r.status === "PENDING").length;
+
+        document.getElementById("approvedRequests").textContent =
+            requests.filter(r => r.status === "APPROVED").length;
+
+        const container = document.getElementById("requestList");
+
+        if (requests.length === 0) {
+
+            container.innerHTML =
+                '<div class="empty">You have not made any requests yet.</div>';
+
+            return;
+        }
+
+        container.innerHTML = requests.map(r => `
+
+            <div class="request-card">
+
+                <b>Request #${escapeHTML(r.requestId)}</b>
+
+                <p>Donation ID:
+                    ${escapeHTML(r.donationId)}
+                </p>
+
+                <p>Requested Quantity:
+                    ${escapeHTML(r.requestedQuantity)}
+                </p>
+
+                <p>Status:
+                    <span class="status">
+                        ${escapeHTML(r.status)}
+                    </span>
+                </p>
+
+                <p>Requested At:
+                    ${escapeHTML(formatDate(r.requestedAt))}
+                </p>
+
+            </div>
+
+        `).join("");
+
+    } catch (error) {
+
+        document.getElementById("requestList").innerHTML =
+            '<div class="empty">Unable to load requests.</div>';
+
+        console.error(error);
+    }
+}
+
+
+// LOAD RECEIVER COLLECTION HISTORY
+async function loadCollections() {
+
+    try {
+
+        const response = await fetch(
+            API + "/collections/receiver/" + receiverId
+        );
+
+        if (!response.ok) {
+            throw new Error("Could not load collections");
+        }
+
+        const collections = await response.json();
+
+        const container =
+            document.getElementById("collectionList");
+
+        if (collections.length === 0) {
+
+            container.innerHTML =
+                '<div class="empty">No collection history yet.</div>';
+
+            return;
+        }
+
+        container.innerHTML = collections.map(c => `
+
+            <div class="request-card">
+
+                <b>Collection #${escapeHTML(c.collectionId)}</b>
+
+                <p>Request ID:
+                    ${escapeHTML(c.requestId)}
+                </p>
+
+                <p>Collected Quantity:
+                    ${escapeHTML(c.collectedQuantity)}
+                </p>
+
+                <p>Collection Time:
+                    ${escapeHTML(formatDate(c.collectionTime))}
+                </p>
+
+                <p>Remarks:
+                    ${escapeHTML(c.remarks || "None")}
+                </p>
+
+            </div>
+
+        `).join("");
+
+    } catch (error) {
+
+        document.getElementById("collectionList").innerHTML =
+            '<div class="empty">Unable to load collection history.</div>';
+
+        console.error(error);
+    }
+}
+
+
+// LOAD NOTIFICATIONS
+async function loadNotifications() {
+
+    try {
+
+        const response = await fetch(
+            API + "/notifications/user/" + receiverId
+        );
+
+        if (!response.ok) {
+            throw new Error("Could not load notifications");
+        }
+
+        const notifications = await response.json();
+
+        const container =
+            document.getElementById("notificationList");
+
+        if (notifications.length === 0) {
+
+            container.innerHTML =
+                '<div class="empty">No notifications yet.</div>';
+
+            return;
+        }
+
+        container.innerHTML = notifications.map(n => {
+
+            const isRead =
+                n.isRead === true ||
+                n.isRead === 1 ||
+                n.isRead === "true";
+
+            return `
+                <div class="request-card">
+
+                    <p>${escapeHTML(n.message)}</p>
+
+                    <p>${escapeHTML(formatDate(n.createdAt))}</p>
+
+                    <span class="status">
+                        ${isRead ? "Read" : "Unread"}
+                    </span>
+
+                    ${!isRead ? `
+                        <button
+                            onclick="markRead(${Number(n.notificationId)}, this)">
+                            Mark as Read
+                        </button>
+                    ` : ""}
+
+                </div>
+            `;
+        }).join("");
+
+    } catch (error) {
+
+        document.getElementById("notificationList").innerHTML =
+            '<div class="empty">Unable to load notifications.</div>';
+
+        console.error("Notification loading error:", error);
+    }
+}
+
+
+// MARK NOTIFICATION AS READ
+async function markRead(notificationId, button) {
+
+    try {
+
+        button.disabled = true;
+        button.textContent = "Updating...";
+
+        const response = await fetch(
+            API + "/notifications/" + notificationId + "/read",
+            {
+                method: "PUT"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Could not update notification");
+        }
+
+        const result = await response.text();
+
+        if (result.trim() !== "true") {
+            throw new Error("Backend did not confirm the update");
+        }
+
+        alert("Notification marked as read!");
+
+        await loadNotifications();
+
+    } catch (error) {
+
+        console.error("Mark as read error:", error);
+
+        alert("Unable to mark notification as read. Please try again.");
+
+        button.disabled = false;
+        button.textContent = "Mark as Read";
+    }
+}
+
+
+// LOGOUT
+function logout() {
+
+    localStorage.clear();
+
+    window.location.href = "index.html";
+}
+
+
+// LOAD ALL DASHBOARD DATA
+loadDonations();
+loadRequests();
+loadCollections();
+loadNotifications();
+
+</script>
+
+</body>
+</html>

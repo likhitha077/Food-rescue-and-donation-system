@@ -1,0 +1,1059 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donor Dashboard | Food Rescue</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f5f8f1;
+    color: #234332;
+}
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #174b32;
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: 800;
+    margin-bottom: 45px;
+}
+
+.logo span {
+    color: #b9ef91;
+}
+
+.sidebar a {
+    display: block;
+    color: #d9eadf;
+    text-decoration: none;
+    padding: 14px 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #2c7950;
+    color: white;
+}
+
+.logout {
+    margin-top: auto;
+}
+
+.main-content {
+    flex: 1;
+    padding: 35px;
+    min-width: 0;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 15px;
+}
+
+.topbar h1 {
+    font-size: 26px;
+}
+
+.profile {
+    background: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+.welcome {
+    background: linear-gradient(120deg, #236d45, #3d9860);
+    color: white;
+    padding: 35px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.welcome h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    font-size: 13px;
+    color: #e1f3e5;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+}
+
+.stat-card .icon {
+    font-size: 27px;
+}
+
+.stat-card h3 {
+    font-size: 28px;
+    margin: 12px 0 5px;
+    color: #247747;
+}
+
+.stat-card p {
+    font-size: 12px;
+    color: #849188;
+}
+
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+}
+
+.add-btn {
+    background: #247747;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.add-btn:hover {
+    background: #155b34;
+}
+
+.empty {
+    text-align: center;
+    padding: 35px 10px;
+    color: #8b978e;
+    font-size: 13px;
+}
+
+.empty span {
+    display: block;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.donation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.donation-card,
+.notification-card {
+    border: 1px solid #e5eee6;
+    border-radius: 14px;
+    padding: 20px;
+    background: #fcfefb;
+    margin-bottom: 15px;
+}
+
+.donation-card h3,
+.notification-card h3 {
+    font-size: 17px;
+    color: #216b40;
+    margin-bottom: 14px;
+}
+
+.donation-card p,
+.request-card p,
+.notification-card p {
+    font-size: 12px;
+    color: #68796e;
+    margin-bottom: 9px;
+    overflow-wrap: anywhere;
+}
+
+.status,
+.request-status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 7px;
+    background: #e5f5e8;
+    color: #247747;
+}
+
+.status.REQUESTED,
+.request-status.PENDING {
+    background: #fff1d8;
+    color: #9b6410;
+}
+
+.status.APPROVED,
+.request-status.APPROVED {
+    background: #e3edff;
+    color: #2859a5;
+}
+
+.status.COLLECTED,
+.request-status.COMPLETED {
+    background: #dff4e9;
+    color: #176c43;
+}
+
+.status.EXPIRED,
+.status.CANCELLED,
+.request-status.REJECTED,
+.request-status.CANCELLED {
+    background: #ffe5e5;
+    color: #b33a3a;
+}
+
+.request-card {
+    border: 1px solid #e5eee6;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 15px;
+    background: #fcfefb;
+}
+
+.request-card h3 {
+    color: #216b40;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.request-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.request-actions button {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.approve-btn {
+    background: #247747;
+    color: white;
+}
+
+.reject-btn {
+    background: #ffe5e5;
+    color: #b33a3a;
+}
+
+.notification-card.unread {
+    border-left: 5px solid #247747;
+    background: #f5fbf5;
+}
+
+.notification-card.read {
+    border-left: 5px solid #cbd8cd;
+}
+
+.unread-count {
+    color: #247747;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+@media(max-width: 850px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+    .dashboard {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .topbar,
+    .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <div class="logo">Food<span>Rescue.</span></div>
+
+        <a class="active" href="donor-dashboard.html">🏠 Dashboard</a>
+        <a href="#donations">🍱 My Donations</a>
+        <a href="#requests">📩 Incoming Requests</a>
+        <a href="#collections">📦 Collection History</a>
+        <a href="#notifications">🔔 Notifications</a>
+
+        <a class="logout" href="index.html" onclick="logout()">🚪 Logout</a>
+
+    </aside>
+
+    <main class="main-content">
+
+        <div class="topbar">
+            <h1>Donor Dashboard</h1>
+
+            <div class="profile">
+                👤 <span id="donorName">Donor</span>
+            </div>
+        </div>
+
+        <section class="welcome">
+            <h2>Welcome, <span id="welcomeName">Donor</span>! 👋</h2>
+            <p>Your surplus food can become someone's hope. Thank you for making a difference.</p>
+        </section>
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="icon">🍱</div>
+                <h3 id="totalDonations">0</h3>
+                <p>Total Donations</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">📩</div>
+                <h3 id="totalRequests">0</h3>
+                <p>Incoming Requests</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">📦</div>
+                <h3 id="totalCollections">0</h3>
+                <p>Completed Collections</p>
+            </div>
+
+        </section>
+
+        <!-- MY DONATIONS -->
+
+        <section class="section" id="donations">
+
+            <div class="section-header">
+                <h2>My Donations</h2>
+
+                <button class="add-btn"
+                    onclick="window.location.href='add-donation.html'">
+                    + Add Food Donation
+                </button>
+            </div>
+
+            <div id="donationList">
+                <div class="empty">Loading your donations...</div>
+            </div>
+
+        </section>
+
+        <!-- INCOMING REQUESTS -->
+
+        <section class="section" id="requests">
+
+            <div class="section-header">
+                <h2>Incoming Requests</h2>
+            </div>
+
+            <div id="requestList">
+                <div class="empty">Loading incoming requests...</div>
+            </div>
+
+        </section>
+
+        <!-- COLLECTION HISTORY -->
+
+        <section class="section" id="collections">
+
+            <div class="section-header">
+                <h2>Collection History</h2>
+            </div>
+
+            <div id="collectionList">
+                <div class="empty">Loading collection history...</div>
+            </div>
+
+        </section>
+
+        <!-- NOTIFICATIONS -->
+
+        <section class="section" id="notifications">
+
+            <div class="section-header">
+
+                <h2>
+                    Notifications
+                    <span id="unreadCount" class="unread-count"></span>
+                </h2>
+
+                <button class="add-btn" onclick="loadNotifications()">
+                    Refresh
+                </button>
+
+            </div>
+
+            <div id="notificationList">
+                <div class="empty">
+                    <span>🔔</span>
+                    Loading notifications...
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<script>
+
+/* LOGIN CHECK */
+
+const donorName = localStorage.getItem("userName");
+const donorRole = localStorage.getItem("userRole");
+const donorId = localStorage.getItem("userId");
+
+if (!donorName || donorRole !== "DONOR" || !donorId) {
+
+    window.location.href = "index.html";
+
+} else {
+
+    document.getElementById("donorName").textContent = donorName;
+    document.getElementById("welcomeName").textContent = donorName;
+
+    console.log("Logged-in donor ID:", donorId);
+}
+
+/* LOGOUT */
+
+function logout() {
+    localStorage.clear();
+}
+
+/* ESCAPE HTML */
+
+function escapeHTML(value) {
+
+    return String(value ?? "").replace(/[&<>"']/g, function(character) {
+
+        const entities = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        };
+
+        return entities[character];
+    });
+}
+
+/* FORMAT DATE */
+
+function formatDate(dateValue) {
+
+    if (!dateValue) return "Not specified";
+
+    const date = new Date(dateValue);
+
+    if (isNaN(date.getTime())) return "Not specified";
+
+    return date.toLocaleString("en-IN");
+}
+
+/* LOAD MY DONATIONS */
+
+async function loadMyDonations() {
+
+    const donationList = document.getElementById("donationList");
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/donations/donor/${donorId}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to fetch donations");
+        }
+
+        const donations = await response.json();
+
+        document.getElementById("totalDonations").textContent =
+            donations.length;
+
+        if (donations.length === 0) {
+
+            donationList.innerHTML = `
+                <div class="empty">
+                    <span>🥗</span>
+                    You haven't added any donations yet.
+                </div>
+            `;
+
+            return;
+        }
+
+        donationList.innerHTML = `
+            <div class="donation-grid">
+
+                ${donations.map(donation => `
+
+                    <div class="donation-card">
+
+                        <h3>🍱 ${escapeHTML(donation.foodName)}</h3>
+
+                        <p><strong>Donation ID:</strong>
+                        ${escapeHTML(donation.donationId)}</p>
+
+                        <p><strong>Category:</strong>
+                        ${escapeHTML(donation.category || "Not specified")}</p>
+
+                        <p><strong>Quantity:</strong>
+                        ${escapeHTML(donation.quantity)}</p>
+
+                        <p><strong>Pickup Location:</strong>
+                        ${escapeHTML(donation.pickupLocation)}</p>
+
+                        <p><strong>Preparation Time:</strong>
+                        ${formatDate(donation.preparationTime)}</p>
+
+                        <p><strong>Collection Deadline:</strong>
+                        ${formatDate(donation.collectionDeadline)}</p>
+
+                        <p><strong>Description:</strong>
+                        ${escapeHTML(donation.description || "No description")}</p>
+
+                        <span class="status ${escapeHTML(donation.status || "AVAILABLE")}">
+                            ${escapeHTML(donation.status || "AVAILABLE")}
+                        </span>
+
+                    </div>
+
+                `).join("")}
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        donationList.innerHTML = `
+            <div class="empty">
+                Unable to load donations: ${escapeHTML(error.message)}
+            </div>
+        `;
+    }
+}
+
+/* LOAD INCOMING REQUESTS */
+
+async function loadIncomingRequests() {
+
+    const requestList = document.getElementById("requestList");
+
+    try {
+
+        const donationResponse = await fetch(
+            `http://localhost:8080/api/donations/donor/${donorId}`
+        );
+
+        if (!donationResponse.ok) {
+            throw new Error("Unable to fetch donations");
+        }
+
+        const donations = await donationResponse.json();
+
+        if (donations.length === 0) {
+
+            requestList.innerHTML = `
+                <div class="empty">
+                    <span>📩</span>
+                    No incoming requests yet.
+                </div>
+            `;
+
+            document.getElementById("totalRequests").textContent = 0;
+            return;
+        }
+
+        const requestResponses = await Promise.all(
+
+            donations.map(async donation => {
+
+                const response = await fetch(
+                    `http://localhost:8080/api/requests/donation/${donation.donationId}`
+                );
+
+                if (!response.ok) {
+                    throw new Error("Unable to fetch requests");
+                }
+
+                return (await response.json()).map(request => ({
+                    ...request,
+                    foodName: donation.foodName
+                }));
+            })
+        );
+
+        const allRequests = requestResponses.flat();
+
+        document.getElementById("totalRequests").textContent =
+            allRequests.length;
+
+        if (allRequests.length === 0) {
+
+            requestList.innerHTML = `
+                <div class="empty">
+                    <span>📩</span>
+                    No receivers have requested your food yet.
+                </div>
+            `;
+
+            return;
+        }
+
+        requestList.innerHTML = allRequests.map(request => {
+
+            const status = request.status || "PENDING";
+
+            return `
+
+                <div class="request-card">
+
+                    <h3>📩 ${escapeHTML(request.foodName)}</h3>
+
+                    <p><strong>Request ID:</strong>
+                    ${escapeHTML(request.requestId)}</p>
+
+                    <p><strong>Receiver ID:</strong>
+                    ${escapeHTML(request.receiverId)}</p>
+
+                    <p><strong>Requested Quantity:</strong>
+                    ${escapeHTML(request.requestedQuantity)}</p>
+
+                    <p><strong>Requested At:</strong>
+                    ${formatDate(request.requestedAt)}</p>
+
+                    <span class="request-status ${escapeHTML(status)}">
+                        ${escapeHTML(status)}
+                    </span>
+
+                    ${status === "PENDING" ? `
+
+                        <div class="request-actions">
+
+                            <button class="approve-btn"
+                                onclick="updateRequestStatus(${Number(request.requestId)}, 'APPROVED')">
+                                ✓ Approve
+                            </button>
+
+                            <button class="reject-btn"
+                                onclick="updateRequestStatus(${Number(request.requestId)}, 'REJECTED')">
+                                ✕ Reject
+                            </button>
+
+                        </div>
+
+                    ` : ""}
+
+                </div>
+
+            `;
+
+        }).join("");
+
+    } catch (error) {
+
+        console.error(error);
+
+        requestList.innerHTML = `
+            <div class="empty">
+                Unable to load incoming requests.
+            </div>
+        `;
+    }
+}
+
+/* APPROVE OR REJECT REQUEST */
+
+async function updateRequestStatus(requestId, status) {
+
+    const action = status === "APPROVED" ? "approve" : "reject";
+
+    if (!confirm(`Are you sure you want to ${action} this request?`)) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/requests/${requestId}/status?status=${status}`,
+            {
+                method: "PUT"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to update request status");
+        }
+
+        const result = await response.json();
+
+        if (result === true) {
+
+            alert(`Request ${status.toLowerCase()} successfully!`);
+
+            await loadIncomingRequests();
+            await loadMyDonations();
+            await loadNotifications();
+
+        } else {
+
+            alert("Request status could not be updated.");
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Something went wrong while updating the request.");
+    }
+}
+
+/* LOAD COLLECTION HISTORY */
+
+async function loadCollectionHistory() {
+
+    const collectionList = document.getElementById("collectionList");
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/collections/donor/${donorId}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to fetch collection history");
+        }
+
+        const collections = await response.json();
+
+        document.getElementById("totalCollections").textContent =
+            collections.length;
+
+        if (collections.length === 0) {
+
+            collectionList.innerHTML = `
+                <div class="empty">
+                    <span>📦</span>
+                    No completed collections yet.
+                </div>
+            `;
+
+            return;
+        }
+
+        collectionList.innerHTML = collections.map(collection => `
+
+            <div class="donation-card">
+
+                <h3>📦 Collection #${escapeHTML(collection.collectionId)}</h3>
+
+                <p><strong>Request ID:</strong>
+                ${escapeHTML(collection.requestId)}</p>
+
+                <p><strong>Collected Quantity:</strong>
+                ${escapeHTML(collection.collectedQuantity)}</p>
+
+                <p><strong>Collection Date:</strong>
+                ${formatDate(collection.collectionTime)}</p>
+
+                <p><strong>Remarks:</strong>
+                ${escapeHTML(collection.remarks || "No remarks")}</p>
+
+                <span class="status COLLECTED">COMPLETED</span>
+
+            </div>
+
+        `).join("");
+
+    } catch (error) {
+
+        console.error(error);
+
+        collectionList.innerHTML = `
+            <div class="empty">
+                Unable to load collection history.
+            </div>
+        `;
+    }
+}
+
+/* CHECK READ VALUE */
+
+function isNotificationRead(notification) {
+
+    const value = notification.isRead;
+
+    return value === true ||
+           value === 1 ||
+           String(value).toLowerCase() === "true";
+}
+
+/* LOAD NOTIFICATIONS */
+
+async function loadNotifications() {
+
+    const notificationList =
+        document.getElementById("notificationList");
+
+    const unreadCount =
+        document.getElementById("unreadCount");
+
+    notificationList.innerHTML = `
+        <div class="empty">
+            <span>🔔</span>
+            Loading notifications...
+        </div>
+    `;
+
+    try {
+
+        console.log("Loading notifications for donor:", donorId);
+
+        const response = await fetch(
+            `http://localhost:8080/api/notifications/user/${donorId}`
+        );
+
+        if (!response.ok) {
+            throw new Error("HTTP error: " + response.status);
+        }
+
+        const notifications = await response.json();
+
+        console.log("Notifications received:", notifications);
+
+        if (!Array.isArray(notifications)) {
+            throw new Error("Invalid notification response");
+        }
+
+        const unread = notifications.filter(
+            notification => !isNotificationRead(notification)
+        );
+
+        unreadCount.textContent =
+            unread.length > 0 ? `(${unread.length} unread)` : "";
+
+        if (notifications.length === 0) {
+
+            notificationList.innerHTML = `
+                <div class="empty">
+                    <span>🔔</span>
+                    You have no notifications yet.
+                </div>
+            `;
+
+            return;
+        }
+
+        notificationList.innerHTML = notifications.map(notification => {
+
+            const isRead = isNotificationRead(notification);
+
+            const notificationId = Number(notification.notificationId);
+
+            return `
+
+                <div class="notification-card ${isRead ? "read" : "unread"}">
+
+                    <h3>
+                        🔔 ${isRead ? "Notification" : "New Notification"}
+                    </h3>
+
+                    <p>${escapeHTML(notification.message)}</p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        ${formatDate(notification.createdAt)}
+                    </p>
+
+                    <span class="status">
+                        ${isRead ? "READ" : "UNREAD"}
+                    </span>
+
+                    ${!isRead ? `
+
+                        <div class="request-actions">
+
+                            <button class="approve-btn"
+                                onclick="markNotificationRead(${notificationId}, this)">
+                                Mark as Read
+                            </button>
+
+                        </div>
+
+                    ` : ""}
+
+                </div>
+
+            `;
+
+        }).join("");
+
+    } catch (error) {
+
+        console.error("Notification loading error:", error);
+
+        notificationList.innerHTML = `
+            <div class="empty">
+                <span>⚠️</span>
+                Unable to load notifications:
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+    }
+}
+
+/* MARK NOTIFICATION AS READ */
+
+async function markNotificationRead(notificationId, button) {
+
+    console.log("Marking notification as read:", notificationId);
+
+    if (!Number.isInteger(notificationId) || notificationId <= 0) {
+        alert("Invalid notification ID.");
+        return;
+    }
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = "Updating...";
+    }
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/notifications/${notificationId}/read`,
+            {
+                method: "PUT"
+            }
+        );
+
+        const result = await response.text();
+
+        console.log("HTTP status:", response.status);
+        console.log("Backend response:", result);
+
+        if (!response.ok) {
+            throw new Error("Backend error: " + result);
+        }
+
+        if (result.trim().toLowerCase() === "true") {
+
+            alert("Notification marked as read successfully!");
+
+            await loadNotifications();
+
+        } else {
+
+            throw new Error("Backend did not confirm the update: " + result);
+
+        }
+
+    } catch (error) {
+
+        console.error("Mark notification read error:", error);
+
+        alert("Error: " + error.message);
+
+        if (button) {
+            button.disabled = false;
+            button.textContent = "Mark as Read";
+        }
+    }
+}
+
+/* INITIALIZE DASHBOARD */
+
+if (donorName && donorRole === "DONOR" && donorId) {
+
+    loadMyDonations();
+    loadIncomingRequests();
+    loadCollectionHistory();
+    loadNotifications();
+
+}
+
+</script>
+
+</body>
+</html>

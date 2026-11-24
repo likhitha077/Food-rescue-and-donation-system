@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Food Donation | Food Rescue</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f5f8f1;
+    padding: 35px 15px;
+    color: #234332;
+}
+
+.container {
+    max-width: 850px;
+    margin: auto;
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.06);
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: #174b32;
+    font-size: 27px;
+}
+
+.header p {
+    color: #87928a;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 9px;
+    color: #344c3d;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #dce5dc;
+    border-radius: 9px;
+    background: #fbfdf9;
+    outline: none;
+    font-size: 13px;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #27864c;
+    box-shadow: 0 0 0 3px rgba(39,134,76,0.1);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+button {
+    padding: 14px 25px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.submit-btn {
+    background: #237747;
+    color: white;
+    flex: 1;
+}
+
+.submit-btn:hover {
+    background: #155b34;
+}
+
+.submit-btn:disabled {
+    background: #8aa995;
+    cursor: not-allowed;
+}
+
+.back-btn {
+    background: #edf3ed;
+    color: #315b40;
+}
+
+#message {
+    font-size: 13px;
+    margin-top: 20px;
+    line-height: 1.7;
+}
+
+.field-error {
+    border-color: #dc3545 !important;
+}
+
+@media(max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .container {
+        padding: 22px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🍱 Add Food Donation</h1>
+        <p>Share your surplus food with people who need it.</p>
+    </div>
+
+    <form id="donationForm" novalidate>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="foodName">Food Name *</label>
+                <input type="text" id="foodName"
+                       placeholder="Example: Vegetable Rice"
+                       maxlength="100" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Food Category *</label>
+                <select id="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Cooked Food">Cooked Food</option>
+                    <option value="Fruits">Fruits</option>
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Bakery">Bakery</option>
+                    <option value="Packaged Food">Packaged Food</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity (units) *</label>
+                <input type="number" id="quantity"
+                       min="1" step="1"
+                       placeholder="Example: 20" required>
+            </div>
+
+            <div class="form-group">
+                <label for="preparationTime">Preparation Date & Time *</label>
+                <input type="datetime-local" id="preparationTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pickupLocation">Pickup Location *</label>
+                <input type="text" id="pickupLocation"
+                       placeholder="Enter pickup address"
+                       maxlength="255" required>
+            </div>
+
+            <div class="form-group">
+                <label for="collectionDeadline">Collection Deadline *</label>
+                <input type="datetime-local" id="collectionDeadline" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="description">Food Description</label>
+                <textarea id="description"
+                          placeholder="Describe the food, packaging, and any important details..."></textarea>
+            </div>
+
+        </div>
+
+        <div class="buttons">
+
+            <button type="button" class="back-btn"
+                    onclick="window.location.href='donor-dashboard.html'">
+                ← Back to Dashboard
+            </button>
+
+            <button type="submit" class="submit-btn" id="submitButton">
+                Submit Donation →
+            </button>
+
+        </div>
+
+        <p id="message" role="alert" aria-live="polite"></p>
+
+    </form>
+
+</div>
+
+<script>
+
+const donorId = localStorage.getItem("userId");
+const donorRole = localStorage.getItem("userRole");
+
+if (!donorId || donorRole !== "DONOR") {
+    window.location.href = "index.html";
+}
+
+const form = document.getElementById("donationForm");
+const message = document.getElementById("message");
+const button = document.getElementById("submitButton");
+
+const foodName = document.getElementById("foodName");
+const category = document.getElementById("category");
+const quantity = document.getElementById("quantity");
+const preparationTime = document.getElementById("preparationTime");
+const pickupLocation = document.getElementById("pickupLocation");
+const collectionDeadline = document.getElementById("collectionDeadline");
+
+function showError(text) {
+    message.style.color = "#dc3545";
+    message.textContent = text;
+}
+
+function clearErrors() {
+    message.textContent = "";
+
+    document.querySelectorAll(".field-error").forEach(field => {
+        field.classList.remove("field-error");
+    });
+}
+
+function validateDonation() {
+
+    clearErrors();
+
+    if (foodName.value.trim().length === 0) {
+        foodName.classList.add("field-error");
+        showError("Please enter the food name.");
+        foodName.focus();
+        return false;
+    }
+
+    if (category.value === "") {
+        category.classList.add("field-error");
+        showError("Please select a food category.");
+        category.focus();
+        return false;
+    }
+
+    const quantityValue = Number(quantity.value);
+
+    if (!Number.isInteger(quantityValue) || quantityValue <= 0) {
+        quantity.classList.add("field-error");
+        showError("Quantity must be a positive whole number.");
+        quantity.focus();
+        return false;
+    }
+
+    if (!preparationTime.value) {
+        preparationTime.classList.add("field-error");
+        showError("Please select the preparation date and time.");
+        preparationTime.focus();
+        return false;
+    }
+
+    const preparationDate = new Date(preparationTime.value);
+    const deadlineDate = new Date(collectionDeadline.value);
+    const now = new Date();
+
+    if (preparationDate > now) {
+        preparationTime.classList.add("field-error");
+        showError("Preparation time cannot be in the future.");
+        preparationTime.focus();
+        return false;
+    }
+
+    if (pickupLocation.value.trim().length === 0) {
+        pickupLocation.classList.add("field-error");
+        showError("Please enter the pickup location.");
+        pickupLocation.focus();
+        return false;
+    }
+
+    if (!collectionDeadline.value) {
+        collectionDeadline.classList.add("field-error");
+        showError("Please select the collection deadline.");
+        collectionDeadline.focus();
+        return false;
+    }
+
+    if (deadlineDate <= preparationDate) {
+        collectionDeadline.classList.add("field-error");
+        showError("Collection deadline must be after preparation time.");
+        collectionDeadline.focus();
+        return false;
+    }
+
+    if (deadlineDate <= now) {
+        collectionDeadline.classList.add("field-error");
+        showError("Collection deadline must be in the future.");
+        collectionDeadline.focus();
+        return false;
+    }
+
+    return true;
+}
+
+// Remove field error when the user edits that field
+document.querySelectorAll("input, select, textarea").forEach(field => {
+    field.addEventListener("input", () => {
+        field.classList.remove("field-error");
+        message.textContent = "";
+    });
+
+    field.addEventListener("change", () => {
+        field.classList.remove("field-error");
+        message.textContent = "";
+    });
+});
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    if (button.disabled) {
+        return;
+    }
+
+    if (!validateDonation()) {
+        return;
+    }
+
+    const donationData = {
+        donorId: Number(donorId),
+        foodName: foodName.value.trim(),
+        category: category.value,
+        quantity: Number(quantity.value),
+        preparationTime: preparationTime.value,
+        pickupLocation: pickupLocation.value.trim(),
+        collectionDeadline: collectionDeadline.value,
+        description: document.getElementById("description").value.trim(),
+        status: "AVAILABLE"
+    };
+
+    button.disabled = true;
+    button.textContent = "Submitting...";
+
+    message.style.color = "#237747";
+    message.textContent = "Saving your donation...";
+
+    try {
+
+        const response = await fetch("/api/donations", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(donationData)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || "Server rejected the donation.");
+        }
+
+        message.style.color = "#237747";
+        message.textContent = "Donation submitted successfully!";
+
+        form.reset();
+
+    } catch (error) {
+
+        message.style.color = "#dc3545";
+        message.textContent =
+            "Unable to submit donation: " + error.message;
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "Submit Donation →";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
